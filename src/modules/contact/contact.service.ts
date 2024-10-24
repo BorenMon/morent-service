@@ -1,17 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
 import { SendContactDto } from './dto/send-contact.dto';
-import { SUPPORT_GMAIL } from 'src/configs/global.config';
+import { CmsService } from '../cms/cms.service';
 
 @Injectable()
 export class ContactService {
   constructor(
-    private readonly mailSevice: MailService
+    private readonly mailSevice: MailService,
+    private readonly cmsService: CmsService,
   ) {}
 
   sendContact(data: SendContactDto) {
     const mailOptions = {
-      from: SUPPORT_GMAIL,
+      from: MailService.SUPPORT_GMAIL,
       to: data.email,
       subject: 'Reception Notification',
       text: `You contacted us.`,

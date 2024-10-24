@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import { SUPPORT_GMAIL, SUPPORT_GMAIL_PASSWORD } from '../../configs/global.config'
 import Mail from 'nodemailer/lib/mailer';
 
 @Injectable()
 export class MailService {
+  public static SUPPORT_GMAIL: string;
+  private SUPPORT_GMAIL_PASSWORD: string;
   private transporter: nodemailer.Transporter;
 
   constructor() {
+    MailService.SUPPORT_GMAIL = process.env.SUPPORT_GMAIL;
+    this.SUPPORT_GMAIL_PASSWORD = process.env.SUPPORT_GMAIL_PASSWORD;
     this.transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: SUPPORT_GMAIL,
-        pass: SUPPORT_GMAIL_PASSWORD,
+        user: MailService.SUPPORT_GMAIL,
+        pass: this.SUPPORT_GMAIL_PASSWORD,
       },
     });
   }

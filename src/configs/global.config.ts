@@ -1,3 +1,0 @@
-export const DIRECTUS_API_BASE_URL = process.env.DIRECTUS_API_BASE_URL
-export const SUPPORT_GMAIL = process.env.SUPPORT_GMAIL
-export const SUPPORT_GMAIL_PASSWORD = process.env.SUPPORT_GMAIL_PASSWORD
