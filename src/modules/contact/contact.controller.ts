@@ -1,13 +1,13 @@
-import { Controller, Post, Body} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { ContactService } from './contact.service';
-import { SendContactDto } from './dto/send-contact.dto';
+import { SendDto } from './contact.dto';
 
 @Controller('contact')
 export class ContactController {
   constructor(private readonly contactService: ContactService) {}
 
-  @Post()
-  sendContact(@Body() sendContactDto: SendContactDto) {
-    return this.contactService.sendContact(sendContactDto);
+  @Post('/send')
+  send(@Body() sendDto: SendDto) {
+    return this.contactService.send(sendDto);
   }
 }

@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
 
-export class SendContactDto {
+export class SendDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -10,7 +10,7 @@ export class SendContactDto {
   email: string;
 
   @IsNotEmpty()
-  @IsPhoneNumber()
+  @IsString()
   phone: string;
 
   @IsNotEmpty()

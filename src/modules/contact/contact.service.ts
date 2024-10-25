@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
-import { SendContactDto } from './dto/send-contact.dto';
+import { SendDto } from './contact.dto';
 import { CmsService } from '../cms/cms.service';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class ContactService {
     private readonly cmsService: CmsService,
   ) {}
 
-  sendContact(data: SendContactDto) {
+  async send(data: SendDto) {
     const mailOptions = {
       from: MailService.SUPPORT_GMAIL,
       to: data.email,
@@ -20,5 +20,7 @@ export class ContactService {
     };
 
     this.mailSevice.sendMail(mailOptions);
+
+    return await this.cmsService.create('contacts', data);
   }
 }
