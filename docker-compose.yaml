@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      target: development
+    ports:
+      - ${PORT}:${PORT}
+    env_file:
+      - .env
+    volumes:
+      - .:/app          # Mounts source code for live updates
+      - /app/node_modules  # Avoids overwriting node_modules
