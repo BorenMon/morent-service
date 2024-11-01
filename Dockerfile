@@ -18,16 +18,16 @@ FROM node:18 AS production
 
 WORKDIR /app
 
+# Install Nest CLI globally
+RUN npm install -g @nestjs/cli
+
 # Copy package files and install only production dependencies
 COPY package*.json ./
 RUN npm install --only=production
 
-# Build the application (optional, depends on your setup)
+# Copy the source code and build
 COPY . .
-RUN npm run build
-
-# Copy only necessary files from the development stage (optional)
-COPY --from=development /app/dist ./dist
+RUN nest build
 
 # Use npm run start for production mode
 CMD ["npm", "run", "start"]
