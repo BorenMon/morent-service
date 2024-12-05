@@ -5,7 +5,7 @@ import { IsTime } from '../../decorators/is-time.decorator';
 export class BookDto {
   @IsInt()
   @IsNotEmpty()
-  car_id: number;
+  car_id: string;
 
   @IsString()
   @IsNotEmpty()

@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { RentingController } from './renting.controller';
 import { RentingService } from './renting.service';
-import { AuthGuard } from 'src/auth.guard';
+import { CmsModule } from '../cms/cms.module';
 
 @Module({
+  imports: [CmsModule],
   controllers: [RentingController],
   providers: [RentingService]
 })

@@ -1,9 +1,13 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { JwtUtils } from './utils/jwt.util';
+import { CmsService } from './modules/cms/cms.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtUtils: JwtUtils) {}
+  constructor(
+    private readonly jwtUtils: JwtUtils,
+    private readonly cmsService: CmsService
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -14,10 +18,20 @@ export class AuthGuard implements CanActivate {
     }
 
     const token = authHeader.split(' ')[1];
-    const decodedToken = this.jwtUtils.validateToken(token);
+    let decoded = this.jwtUtils.validateToken(token);
 
-    // Optionally, perform additional checks, such as fetching the user from Directus
-    request.user = decodedToken;
+    try {
+      decoded = (await this.cmsService.read('users', decoded.id, true)).data;
+    } catch (error) {
+      throw new NotFoundException('Could not find user')
+    }
+
+    if (decoded.role != process.env.DIRECTUS_CUSTOMER_ROLE) {
+      throw new UnauthorizedException('Invalid role');
+    }
+
+    request.user = decoded;
+
     return true;
   }
 }

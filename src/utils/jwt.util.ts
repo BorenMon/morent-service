@@ -9,6 +9,7 @@ export class JwtUtils {
     try {
       return jwt.verify(token, this.secret);
     } catch (error) {
+      console.log(error);
       throw new UnauthorizedException('Invalid token');
     }
   }
