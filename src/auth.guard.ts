@@ -23,6 +23,10 @@ export class AuthGuard implements CanActivate {
     try {
       decoded = (await this.cmsService.read('users', decoded.id, true)).data;
     } catch (error) {
+      console.error(error)
+      if (error.status === 401) {
+        throw new UnauthorizedException('Invalid token');
+      }
       throw new NotFoundException('Could not find user')
     }
 

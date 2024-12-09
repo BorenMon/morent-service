@@ -9,7 +9,7 @@ export class RentingService {
     ) {}
 
     async book(customerId: string, bookDto: BookDto) {
-        const carData = await this.cmsService.read('cars', bookDto.car_id);
+        const carData = (await this.cmsService.read('cars', bookDto.car_id)).data;
         
         if (!carData) {
             throw new NotFoundException('Car not found');

@@ -28,6 +28,7 @@ export class CmsService {
 
   async read(collection: string, id: string, isSystem: boolean = false) {
     try {
+      console.log(`${isSystem ? '' : '/items'}/${collection}/${id}`)
       const response = await this.axiosClient.get(`${isSystem ? '' : '/items'}/${collection}/${id}`);
       console.log(`Read item from ${collection} with ID ${id}: ${JSON.stringify(response.data)}`);
       return response.data;
