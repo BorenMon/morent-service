@@ -77,7 +77,7 @@ export class RentingService {
             throw new ForbiddenException('Booking is already cancelled');
         }
 
-        const carNumber = (await this.cmsService.read('car', bookingData.car_id)).data.number
+        const carNumber = (await this.cmsService.read('cars', bookingData.car_id)).data.number
 
         this.cmsService.update('cars', bookingData.car_id, {
             number: carNumber + 1
@@ -86,6 +86,16 @@ export class RentingService {
         return await this.cmsService.update('bookings', bookingId, {
             progress_status: 'cancelled',
             payment_status: 'refunding',
+            stage: 'history'
         });
+    }
+
+    async getHistory(customerId: string) {
+        return await this.cmsService.list('bookings', {
+            'filter[customer_id][_eq]': customerId,
+            'filter[stage][_eq]': 'history',
+            'limit': 9,
+            'fields': ['*', 'car_id.*']
+        })
     }
 }

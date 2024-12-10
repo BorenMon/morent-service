@@ -38,4 +38,10 @@ export class RentingController {
     ) {
         return await this.rentingService.cancel(request.user.id, bookingId);
     }
+
+    @Get('/history')
+    @UseGuards(AuthGuard)
+    async getHistory(@Req() request: any) {
+        return await this.rentingService.getHistory(request.user.id);
+    }
 }
