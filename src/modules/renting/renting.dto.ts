@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsNotEmpty, IsDate } from 'class-validator';
+import { IsInt, IsString, IsNotEmpty, IsDate, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
 import { IsTime } from '../../decorators/is-time.decorator';
 
@@ -44,4 +44,8 @@ export class BookDto {
   @IsTime({ message: 'Drop-off time must be in the format HH:MM' })
   @IsNotEmpty()
   drop_off_time: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  total_amount: number;
 }

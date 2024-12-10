@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { BookDto } from './renting.dto';
 import { AuthGuard } from 'src/auth.guard';
 import { RentingService } from './renting.service';
@@ -9,6 +9,12 @@ export class RentingController {
         private readonly rentingService: RentingService
     ) {}
 
+    @Get('/bookings')
+    @UseGuards(AuthGuard)
+    async getBookings(@Req() request: any) {
+        return await this.rentingService.getBookings(request.user.id);
+    }
+
     @Post('/book')
     @UseGuards(AuthGuard)
     async book(
@@ -16,6 +22,12 @@ export class RentingController {
         @Req() request: any
     ) {
         return await this.rentingService.book(request.user.id, bookDto);
+    }
+
+    @Get('')
+    @UseGuards(AuthGuard)
+    async getRenting(@Req() request: any) {
+        return await this.rentingService.getRenting(request.user.id);
     }
 
     @Delete('/:id')

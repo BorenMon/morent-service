@@ -8,6 +8,28 @@ export class RentingService {
         private readonly cmsService: CmsService
     ) {}
 
+    async getBookings(customerId: string) {
+        return (await this.cmsService.list('bookings', {
+            'filter[customer_id][_eq]': customerId,
+            'filter[stage][_eq]': 'booking',
+            'filter[progress_status][_neq]': 'cancelled',
+            'limit': 9,
+            'sort[]': '-date_created',
+            'fields': ['*', 'car_id.*']
+        }));
+    }
+
+    async getRenting(customerId: string) {
+        return (await this.cmsService.list('bookings', {
+            'filter[customer_id][_eq]': customerId,
+            'filter[stage][_eq]': 'renting',
+            'filter[progress_status][_neq]': 'cancelled',
+            'limit': 1,
+            'sort[]': '-date_created',
+            'fields': ['*', 'car_id.*']
+        }));
+    }
+
     async book(customerId: string, bookDto: BookDto) {
         const carData = (await this.cmsService.read('cars', bookDto.car_id)).data;
         
@@ -31,6 +53,7 @@ export class RentingService {
             drop_off_city: bookDto.drop_off_city,
             drop_off_date: bookDto.drop_off_date,
             drop_off_time: bookDto.drop_off_time,
+            total_amount: bookDto.total_amount,
             stage: 'booking',
             payment_status: 'pending',
             progess_status: 'pending',

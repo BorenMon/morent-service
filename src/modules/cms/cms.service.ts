@@ -38,6 +38,17 @@ export class CmsService {
     }
   }
 
+  async list(collection: string, params: any) {
+    try {
+      const response = await this.axiosClient.get(`/items/${collection}`, { params });
+      console.log(`Listed items from ${collection}: ${JSON.stringify(response.data)}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error listing items from ${collection}: ${error.message}`);
+      throw error;
+    }
+  }
+
   async update(collection: string, id: string, data: any) {
     try {
       const response = await this.axiosClient.patch(`/items/${collection}/${id}`, data);
