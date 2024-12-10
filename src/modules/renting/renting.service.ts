@@ -95,7 +95,8 @@ export class RentingService {
             'filter[customer_id][_eq]': customerId,
             'filter[stage][_eq]': 'history',
             'limit': 9,
-            'fields': ['*', 'car_id.*']
+            'fields': ['*', 'car_id.*'],
+            'sort[]': '-date_updated'
         })
     }
 }
